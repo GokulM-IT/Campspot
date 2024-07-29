@@ -1,0 +1,42 @@
+<% layout('campsites/layouts/boilerplate') %>
+
+<div id="new-campsite-container" class="row justify-content-center">
+    <div class="custom-border remove-border col col-lg-6 p-4">
+        <div class="d-flex justify-content-center border-bottom mb-4">
+            <h4 class="pb-3 fw-bold">Campsite</h4>
+        </div>
+        <form action="/campsites/new" method="POST" novalidate class="validation-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="custom-hover custom-border form-control" id="title" name="campsites[title]" aria-describedby="title" required>
+                <div class="invalid-feedback">Please provide a valid title</div>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group mb-3">
+                    <span class="custom-border input-group-text">₹</span>
+                    <input type="text" class="custom-hover common-placeholder custom-border form-control" id="price" name="campsites[price]" placeholder="0.00" aria-label="0.00" aria-describedby="price" required>
+                    <div class="invalid-feedback">Please provide a valid price</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="images" class="form-label">Images <span class="text-muted fw-normal">(limit 5)</span></label>
+                <input class="custom-hover custom-border form-control" type="file" name="image" id="images" aria-describedby="imageURL" multiple required>
+                <div class="invalid-feedback">Please provide a valid URL</div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="custom-hover custom-border form-control" id="location" name="campsites[location]" aria-describedby="location" required>
+                <div class="invalid-feedback">Please provide a valid location</div>
+            </div>
+            <div class="mb-5">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="custom-hover custom-border form-control" id="description" name="campsites[description]" style="height: 185px" maxlength="483" required></textarea>
+                <div class="invalid-feedback">Please provide a valid description</div>
+            </div>
+            <div>
+                <button type="submit" class="btn-style col-12 p-2">Continue</button>
+            </div>
+        </form>
+    </div>
+</div>

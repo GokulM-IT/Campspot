@@ -1,0 +1,90 @@
+@media (max-width: 1024px) {
+    body {
+        font-size: 12px;
+    }
+
+    #nav-bar #nav-title {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        margin-top: 60px;
+    }
+}
+
+@media (min-width: 968px) and (max-width: 1024px) {
+    #nav-bar {
+        height: 60px;
+    }
+}
+
+@media (max-width: 991px) {
+    #nav-bar .navbar-nav:nth-of-type(2) {
+        all: unset;
+    }
+
+    #nav-bar .navbar-nav:nth-of-type(2),
+    .nav-link {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        color: #000000 !important;
+    }
+}
+
+@media (min-width: 991px) {
+    #sm-display {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    #lg-display {
+        display: none;
+    }
+
+    #sm-display {
+        color: #cc0045;
+        font-size: 1.3em;
+    }
+
+    #nav-bar {
+        height: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    #map-section #map {
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    #reviews-section .review-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #rating-section #text-area {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .remove-border {
+        border: none !important;
+    }
+
+    .btn-style {
+        font-size: 1.2em !important;
+    }
+
+    #new-campsite-container .custom-hover, 
+    #new-campsite-container .custom-border, 
+    #new-campsite-container .form-control {
+        font-size: 1em; 
+    }
+}

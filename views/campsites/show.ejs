@@ -1,0 +1,166 @@
+<% layout('campsites/layouts/boilerplate') %>
+
+<link rel="stylesheet" href="/css/star.css">
+
+<h3><%= campsite.title %></h3>
+<div id="hero" class="row row-cols-1 row-cols-lg-2 py-3 pt-lg-2 pb-lg-5 border-bottom">
+    <div class="col">
+        <div id="campsiteCarousel" class="carousel slide carousel-fade">
+            <div class="carousel-inner">
+                <% campsite.images.forEach((image, index) => { %>                         
+                    <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                        <img crossorigin="anonymous" src="<%= image.url %>" class="d-block w-100" alt="...">
+                    </div>
+                <% }) %>
+            </div>
+            <% if (campsite.images.length > 1) { %>                     
+                <button class="carousel-control-prev" type="button" data-bs-target="#campsiteCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#campsiteCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="py-4 pt-lg-1 py-xl-4 border-bottom">
+            <h4><%= campsite.location %></h4>
+            <div class="card-text">&#8377;<%= new Intl.NumberFormat().format(campsite.price) %> <small class="fw-light">night</small></div>
+        </div>
+
+        <div class="fw-light py-4 border-bottom"><%= campsite.description %></div>
+
+        <% if (currentUser && currentUser._id.equals(campsite.author._id)) { %>                 
+            <div class="py-4 border-bottom">
+                <a href="/campsites/<%= campsite._id %>/edit" id="anchor-inherit" class="btn btn-outline-dark rounded-pill">Edit</a>
+                <form class="d-inline" action="/campsites/<%= campsite._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-danger rounded-pill" type="submit">Delete</button>
+                </form>
+            </div> 
+        <% } %>
+        
+        <div id="user-card" class="d-flex gap-3 align-items-center py-3 py-lg-4">
+            <div>
+                <i class="fa-duotone fa-solid fa-circle-user fa-2xl"></i>
+            </div>
+            <div>                
+                <div>Hosted by <%= campsite.author.username %></div>
+                <% if (campsite.author.getRelativeTime === 'Today' || campsite.author.getRelativeTime === 'Yesterday') { %>
+                    <div class="text-muted fw-normal"><%= campsite.author.getRelativeTime %></div>
+                <% } else { %>
+                    <div class="text-muted fw-normal"><%= campsite.author.getRelativeTime %> hosting</div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="map-section" class="row py-3 py-lg-5 border-bottom">
+    <h4 class="mb-4">Where you’ll be</h4>
+    <div>
+        <div class="mb-3 fw-light"><%= campsite.location %></div>
+        <div id="map"></div>
+    </div>
+</div>
+
+<% if (currentUser) { %>
+<div id="rating-section" class="row border-bottom">
+    <div class="col py-3 py-lg-5">
+        <h4 class="mb-4">Write your review</h4>
+        <form action="/campsites/<%= campsite._id %>/review" method="POST" novalidate class="validation-form">
+            <label class="mb-2" for="no-rate">Rating</label>
+            <fieldset class="starability-slot">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <div class="mb-3">
+                <label class="form-label" for="text-area">Review</label>
+                <textarea id="text-area" class="custom-border custom-hover form-control" name="review[body]" required></textarea>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-outline-dark rounded-pill">Post Review</button>
+            </div>
+        </form>
+    </div>
+</div>
+<% } %>
+
+<div id="reviews-section" class="py-3 py-lg-5">
+    <h4 class="mb-4">Reviews</h4>
+    <% if (campsite.reviews.length !== 0) { %>
+        <div class="row row-cols-2 g-2">
+            <% campsite.reviews.forEach((review, index) => { %>
+                <% if (index < 6) { %>         
+                    <div class="review-container col mt-0">
+                        <div class="user-review-card d-flex gap-3 align-items-center py-2">
+                            <div>
+                                <i class="fa-duotone fa-solid fa-circle-user fa-3x"></i>
+                            </div>
+                            <div>                
+                                <div><%= review.author.username %></div>
+                                <% if (review.author.getRelativeTime === 'Today' || review.author.getRelativeTime === 'Yesterday') { %>
+                                    <small class="fw-light"><%= review.author.getRelativeTime %></small>
+                                <% } else { %>
+                                    <small class="fw-light"><%= review.author.getRelativeTime %>  on Campspot</small>
+                                <% } %>
+                            </div>
+                            <div class="ms-auto">
+                                <% if (currentUser && currentUser._id.equals(review.author._id)) { %>                                          
+                                    <form action="/campsites/<%= campsite._id %>/review/<%= review._id%>?_method=DELETE" method="POST">
+                                        <button class="delete-icon" type="submit"><i class="fa-solid fa-trash-can" style="color: #fe0101;"></i></button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <div class="review-star d-flex">
+                                <% for( let index = 0; index < 5; index++ ) { %>
+                                    <% if (index < review.rating) { %>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 0.5625rem; width: 0.5625rem; fill: #000000;"><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
+                                    <% } else { %>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 0.5625rem; width: 0.5625rem; fill: #dddddd;"><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <div>&middot;</div>
+                            <div class="review-date"><%= review.formatedDate %></div>
+                        </div>
+                        <div>
+                            <div class="fw-light py-1"><%= review.body.length < 180 ? review.body : review.body.substring(0, 180) + '...' %></div>
+                            <% if (review.body.length > 180) { %>
+                                <div class="pt-2">
+                                    <a href="#" class="text-dark">Show more</a>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            <% }) %>
+        </div>
+        <% } else { %>
+         <div class="text-center fs-3 fw-normal">No reviews yet</div>
+        <% } %>
+</div>
+
+<script>
+    const maptilerAPI = '<%- process.env.MAPTILER_API %>';
+    let campsiteGeometry = <%- JSON.stringify(campsite.geometry) %>;
+    const campsiteLocation = '<%- campsite.location %>';
+    const campsiteTitle = '<%- campsite.title %>';
+</script>
+
+<script src="/js/maptilerShowScript.js"></script>

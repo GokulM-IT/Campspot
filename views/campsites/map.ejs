@@ -1,0 +1,13 @@
+<% layout('campsites/layouts/boilerplate') %>
+
+<div id="clusterMap-container" class="row p-1">
+    <h3 class="mb-3 px-0">Find campsites</h3>
+    <div id="map"></div>
+</div>
+
+<script>
+    const maptilerAPI = '<%- process.env.MAPTILER_API %>';
+    let campsites = { features: <%- JSON.stringify(campsites) %> }
+</script>
+
+<script src="/js/clusterMap.js"></script>

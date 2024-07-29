@@ -1,0 +1,20 @@
+<% layout('campsites/layouts/boilerplate') %>
+
+<div class="d-flex align-items-center justify-content-center w-100 mt-5 p-md-5">
+    <div>
+        <% if (err.statusCode === 400) { %>
+            <h2 class="text-center">Bad Request <small class="text-muted fw-normal fs-5">400</small></h2>
+        <% } else { %>
+            <h2 class="text-center">Error <small class="text-muted fw-normal fs-5"><%= err.statusCode %></small></h2>
+        <% } %>
+        <p class="lead text-center mt-4"><%= err.message %></p>
+        <% if (process.env.NODE_ENV !== 'production') { %>
+            <p><%= err.stack %></p> 
+        <% } %>
+        <div class="text-center">
+            <button class="btn btn-outline-dark rounded-pill" onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/previousPage.js"></script>

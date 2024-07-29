@@ -1,0 +1,57 @@
+<% layout('campsites/layouts/boilerplate') %>
+
+<div id="new-campsite-container" class="row justify-content-center">
+    <div class="custom-border remove-border col col-lg-6 p-4">
+        <div class="d-flex justify-content-center border-bottom mb-4">
+            <h4 class="pb-3 fw-bold">Campsite</h4>
+        </div>
+        <form action="/campsites/<%= campsite._id %>?_method=PUT" method="POST" novalidate class="row validation-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="custom-hover custom-border form-control" id="title" name="campsites[title]" value="<%= campsite.title %>" aria-describedby="title" required>
+                <div class="invalid-feedback">Please provide a valid title</div>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group">
+                    <span class="custom-border input-group-text">₹</span>
+                    <input type="text" class="custom-hover common-placeholder custom-border form-control" id="price" name="campsites[price]" value="<%= campsite.price %>" placeholder="0.00" aria-label="0.00" aria-describedby="price" required>
+                    <div class="invalid-feedback">Please provide a valid price</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="images" class="form-label">Images <span class="text-muted fw-normal">(limit 5)</span></label>
+                <input class="custom-hover custom-border form-control" type="file" name="image" id="images" aria-describedby="imageURL" multiple>
+                <div class="invalid-feedback">Please provide a valid URL</div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="custom-hover custom-border form-control" id="location" name="campsites[location]" value="<%= campsite.location %>" aria-describedby="location" required>
+                <div class="invalid-feedback">Please provide a valid location</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="custom-hover custom-border form-control" id="description" name="campsites[description]" style="height: 185px" maxlength="483" required><%= campsite.description %></textarea>
+                <div class="invalid-feedback">Please provide a valid description</div>
+            </div>
+
+            <div class="mb-5">
+                <div class="mb-3">Select images to delete</div>
+                <div class="d-flex flex-wrap justify-content-around gap-2">
+                    <% campsite.images.forEach((image, index) => { %>             
+                        <div class="col img-container form-check p-0 m-auto">
+                            <input class="form-check-input" type="checkbox" name="deleteImages[]" value="<%= image.filename %>" id="<%= index %>">
+                            <img class="checked-img" style="max-width: 350px; width: 100%;" src="<%= image.url %>" alt="">
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn-style col-12 p-2">Continue</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/deleteImages.js"></script>
