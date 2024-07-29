@@ -1,6 +1,6 @@
 @media (max-width: 1024px) {
     body {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     #nav-bar #nav-title {
@@ -29,8 +29,13 @@
     .nav-link {
         padding: 0 !important;
         margin: 0 !important;
+        margin-bottom: 0.8em !important;
         border: none !important;
         color: #000000 !important;
+    }
+    
+    .home-anchor {
+        margin-top: 0.8em !important;
     }
 }
 
