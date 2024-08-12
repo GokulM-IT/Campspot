@@ -67,7 +67,6 @@
     </div>
 </div>
 
-<% if (currentUser) { %>
 <div id="rating-section" class="row border-bottom">
     <div class="col py-3 py-lg-5">
         <h4 class="mb-4">Write your review</h4>
@@ -91,13 +90,18 @@
                 <textarea id="text-area" class="custom-border custom-hover form-control" name="review[body]" required></textarea>
                 <div class="valid-feedback">Looks good!</div>
             </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-outline-dark rounded-pill">Post Review</button>
-            </div>
+            <% if (currentUser) { %>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-outline-dark rounded-pill">Post Review</button>
+                </div>
+            <% } else { %>
+                <div>
+                    <p>Please log in or sign up to leave a review.</p>
+                </div>
+            <% } %>
         </form>
     </div>
 </div>
-<% } %>
 
 <div id="reviews-section" class="py-3 py-lg-5">
     <h4 class="mb-4">Reviews</h4>

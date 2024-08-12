@@ -22,7 +22,7 @@ const campsitesRoutes = require('./routes/campsites')
 const reviewsRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 
-const url = process.env.MONGODB_URL || ' mongodb://127.0.0.1:27017/campspot';
+const url = process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/campSpot';
 
 mongoose.connect(url)
     .then(() => {
