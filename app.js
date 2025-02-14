@@ -95,16 +95,13 @@ app.use('/users', usersRoutes);
 
 app.all('*', (req, res, next) => {
     res.status(404).render('notFound')
-
 })
 
 app.use((err, req, res, next) => {
     if (err instanceof multer.MulterError) {
         err.statusCode = err.statusCode || 400;
         err.message = 'The maximum limit for images is 5';
-
     } else {
-
         err.statusCode = err.statusCode || 500;
         if (!err.message) err.message = 'oh no, something went wrong.'
     }
